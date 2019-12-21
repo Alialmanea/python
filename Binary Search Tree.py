@@ -73,7 +73,7 @@ def main():
     preorder(BinarySearchTree1)
 
     '''
-     Built BinarySearchTree2 with Random Node from 0 to 100  
+     Built BinarySearchTree2 with Random Node start from 0  End 100  
     '''
     random.seed()
 
