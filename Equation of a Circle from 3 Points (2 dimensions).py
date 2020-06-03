@@ -21,13 +21,31 @@ class Circle: # To Make Circle by Using 3 points
         slef.P1=P1
         slef.P2=P2
         slef.P3=P3
-        slef.Center=P(-1,-1)  #Error checking
+        slef.Center=P(-1, -1) #Error checking
 
-    def IsPerpendicular(self): # Check the given point are perpendicular to x or y axis
-        yDelta_a = self.P2.Y - self.P1.Y
-        xDelta_a = self.p2.X - self.P1.X
-        yDelta_b = self.P3.Y - self.P2.Y
-        xDelta_b = self.P3.X - self.P2.X
+        """If either Line is vertical then the corresponding slope is infinite.
+        Can be solved by simply rearranging the order of the points so that vertical lines do not occur. """
+
+        if not slef.__IsPerpendicular(slef.P1,slef.P2,slef.P3):
+            slef.__CalcCircle(slef.P1,slef.P2,slef.P3)
+        if not slef.__IsPerpendicular(slef.P1,slef.P3,slef.P2):
+            slef.__CalcCircle(slef.P1,slef.P3,slef.P2)
+        if not slef.__IsPerpendicular(slef.P2,slef.P1,slef.P3):
+            slef.__CalcCircle(slef.P2,slef.P1,slef.P3)
+        if not slef.__IsPerpendicular(slef.P3,slef.P2,slef.P1):
+            slef.__CalcCircle(slef.P3,slef.P2,slef.P1)
+        if not slef.__IsPerpendicular(slef.P3,slef.P1,slef.P2):
+            slef.__CalcCircle(slef.P3,slef.P1,slef.P2)
+        else: # The three Point are perpendicular to axis
+            slef.Radius=-1
+            slef.Center=P(-1, -1)
+
+    # private function
+    def __IsPerpendicular(self,P1,P2,P3): # Check the given point are perpendicular to x or y axis
+        yDelta_a = P2.Y - P1.Y
+        xDelta_a = P2.X - P1.X
+        yDelta_b = P3.Y - P2.Y
+        xDelta_b = P3.X - P2.X
 
         # checking whether the Line of the two points are vertical
         if math.fabs(xDelta_a) <= 0.000000001 and math.fabs(yDelta_b) <= 0.000000001:
@@ -47,17 +65,17 @@ class Circle: # To Make Circle by Using 3 points
             return True
         else:
             return False
-
-    def CalcCircle(self):
-        yDelta_a = self.P2.Y - self.P1.Y
-        xDelta_a = self.P2.X - self.P1.X
-        yDelta_b = self.P3.Y - self.P2.Y
-        xDelta_b = self.P3.X - self.P2.X
+    # Private Function
+    def __CalcCircle(self,P1,P2,P3): # Calculate the radius and the center of Giving Circle
+        yDelta_a = P2.Y - P1.Y
+        xDelta_a = P2.X - P1.X
+        yDelta_b = P3.Y - P2.Y
+        xDelta_b = P3.X - P2.X
 
         if math.fabs(xDelta_a) <= 0.000000001 and math.fabs(yDelta_b) <= 0.000000001:
             self.Center.X= 0.5 * (self.P2.X + self.P3.X)
-            self.Center.Y= 0.5 * (self.P1.Y + self.P2.Y)
-            self.Radius= calculateDistance(self.Center, self.P1)
+            self.Center.Y= 0.5 * (self.P1.Y + self.P2.Y) # Calculate the Center of giving circle
+            self.Radius= calculateDistance(self.Center, self.P1) ## Calculate the Radius of giving circle
 
         # IsPerpendicular() assure that xDelta(s) are not zero
         aSlope = yDelta_a / xDelta_a
@@ -65,22 +83,26 @@ class Circle: # To Make Circle by Using 3 points
 
         if math.fabs(aSlope - bSlope) <= 0.000000001:
             # checking whether the given points are colinear.
-            return -1
+            self.Center=P(-1,-1)
+            self.Radius=-1
 
         # Calculate the Center
-        self.Center.X = (aSlope * bSlope * (self.P1.Y - self.P3.Y) + bSlope * (self.P1.X + self.P2.X)
-                              - aSlope * (self.P2.X+self.P3.X)) / (2 * (bSlope - aSlope))
-        self.Center.Y = -1 * (self.Center.X - (self.P1.X + self.P2.X )/ 2) / aSlope + (self.P1.Y + self.P2.Y) / 2
+        self.Center.X = (aSlope * bSlope * (P1.Y - P3.Y) + bSlope * (P1.X + P2.X)
+                              - aSlope * (P2.X+P3.X)) / (2 * (bSlope - aSlope))
+        self.Center.Y = -1 * (self.Center.X - (P1.X + P2.X )/ 2) / aSlope + (P1.Y + P2.Y) / 2
 
         #Calculate the Radius
-        self.Radius = calculateDistance(self.Center, self.P1)
+        self.Radius = calculateDistance(self.Center, P1)
 
-        return self.Radius,self.Center
+    def getRadius(self):  #Getting The Radius of Cicle
+        return self.Radius
+    def getCenter(self):  #Getting The Center Of Circle
+        return self.Center
 
 
 
 
-def calculateDistance(P1, P2):
+def calculateDistance(P1, P2):  # Find the distance between two points by using Euclidean
     dist = math.sqrt((P2.X - P1.X) ** 2 + (P2.Y - P1.Y) ** 2)
     return dist
 
@@ -110,7 +132,8 @@ def main():
 
     circle= Circle(p1,p2,p3)
 
-    Radius,centerOfCircle = circle.CalcCircle()
+    Radius =circle.getRadius()
+    centerOfCircle = circle.getCenter()
 
     print("Radius of Circle :{}".format(Radius))
     print("The Center of Circle ",end="")
