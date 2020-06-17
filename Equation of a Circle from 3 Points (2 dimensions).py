@@ -7,13 +7,6 @@ class P:   # To Make a Specific Point
     def print(self):  # Print the Point (X, Y)
         print("({},{})".format(self.X,self.Y))
 
-class Line: # To Make Line by Using two specific points
-    def __init__(self,p1,p2): # Construction of Line class
-        self.p1=p1
-        self.p2=p2
-    def print(self):
-        print("({},{}) ______________ ({},{})".format(self.p1.X,self.p1.Y,self.p2.X,self.p2.Y))
-
 
 class Circle: # To Make Circle by Using 3 points
     def __init__(slef,P1,P2,P3):
@@ -101,29 +94,10 @@ class Circle: # To Make Circle by Using 3 points
 
 
 
-
 def calculateDistance(P1, P2):  # Find the distance between two points by using Euclidean
     dist = math.sqrt((P2.X - P1.X) ** 2 + (P2.Y - P1.Y) ** 2)
     return dist
 
-
-def DoLinesIntersect(L1,L2):
-    # Denominator
-    d=(L2.p2.Y - L2.p1.Y) * (L1.p2.X - L1.p1.X) - (L2.p2.X - L2.p1.X) * (L1.p2.Y - L1.p1.Y)
-    # n_a and n_b are calculated as seperate values for readability
-    n_a = (L2.p2.X - L2.p1.X) * (L1.p1.Y - L2.p1.Y) - (L2.p2.Y - L2.p1.Y) * (L1.p1.X - L2.p1.X)
-    n_b = (L1.p2.X - L1.p1.X) * (L1.p1.Y - L2.p1.Y) - (L1.p2.Y - L1.p1.Y) * (L1.p1.X - L2.p1.X)
-
-    if d == 0:
-        if n_a == 0 and n_b == 0:
-            return "coincidente"
-        else:
-            return "perallal"
-    else:
-        Ua=n_a/d
-        Ub=n_b/d
-
-    return P(L1.p1.X + (Ua * (L1.p2.X - L1.p1.X)),L1.p1.Y + (Ua * (L1.p2.Y - L1.p1.Y)))
 
 def main():
     p1 = P(6, 3)
